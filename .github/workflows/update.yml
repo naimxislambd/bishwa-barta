@@ -1,0 +1,29 @@
+name: Update news
+
+# Runs every hour: fetches the latest Bengali international news,
+# rebuilds the static site, and commits the result.
+on:
+  schedule:
+    - cron: '23 * * * *'
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Fetch news and rebuild site
+        run: |
+          node fetch-news.js
+          node build-site.js
+      - name: Commit and push if changed
+        run: |
+          git config user.name "bishwa-barta-bot"
+          git config user.email "bishwa-barta-bot@users.noreply.github.com"
+          git add data docs
+          git diff --cached --quiet || (git commit -m "news update: $(date -u '+%Y-%m-%d %H:%M UTC')" && git push)
