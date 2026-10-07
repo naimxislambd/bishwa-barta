@@ -1,0 +1,1 @@
+{"description":"বিশ্ব বার্তা — auto-updating Bengali international news site (static, zero dependencies)","engines":{"node":">=18"},"name":"bishwa-barta","scripts":{"update":"node fetch-news.js && node build-site.js"},"version":"1.0.0"}
