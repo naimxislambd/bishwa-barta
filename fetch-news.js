@@ -74,19 +74,42 @@ function decodeEntities(s) {
 }
 
 function stripTags(s) {
-  return s.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+  // only real tags (start with a letter) — keeps things like "5 < 10" intact
+  return s.replace(/<\/?[a-zA-Z][^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
 }
 
 function cleanText(s) {
-  return decodeEntities(stripTags(stripCdata(s || ''))).trim();
+  // NOTE: decode FIRST, then strip — feeds like Google News send escaped
+  // HTML (&lt;ol&gt;...); stripping before decoding leaves raw tags visible.
+  return stripTags(decodeEntities(stripCdata(s || '')))
+    .replace(/<[a-zA-Z][^<>]*$/, '') // trailing incomplete tag from truncation
+    .trim();
 }
 
 function summarize(s, max = 240) {
   s = cleanText(s);
+  return truncateText(s, max);
+}
+
+function truncateText(s, max = 240) {
   if (s.length <= max) return s;
   const cut = s.slice(0, max);
   const lastSpace = cut.lastIndexOf(' ');
   return (lastSpace > max * 0.6 ? cut.slice(0, lastSpace) : cut).trim() + '…';
+}
+
+// Google News descriptions are just a list of related-coverage links —
+// the useful text is inside the <a> tags (often HTML-escaped).
+function linkTexts(descHtml) {
+  const decoded = decodeEntities(stripCdata(descHtml || ''));
+  const texts = [];
+  const re = /<a\b[^>]*>([\s\S]*?)<\/a>/gi;
+  let m;
+  while ((m = re.exec(decoded)) && texts.length < 4) {
+    const t = cleanText(m[1]);
+    if (t.length > 15) texts.push(t);
+  }
+  return texts;
 }
 
 function pickImage(itemXml) {
@@ -121,7 +144,14 @@ function parseRss(xml, source) {
     }
     if (!title || !link || SKIP_TITLE.test(title)) continue;
     const desc = get('description') || get('content:encoded') || '';
-    const summary = summarize(desc);
+    let summary;
+    if (source.useSourceTag) {
+      // Google News: description is only related links — use their headlines
+      const texts = linkTexts(desc).filter((t) => t !== title);
+      summary = truncateText(texts.slice(0, 2).join(' ▪ ') || title);
+    } else {
+      summary = summarize(desc);
+    }
     if (!summary || summary.length < 20) continue;
     const pubRaw = cleanText(get('pubDate') || get('dc:date') || '');
     let pubDate = new Date(pubRaw);
@@ -164,6 +194,15 @@ async function main() {
     existing = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
     if (!Array.isArray(existing)) existing = [];
   } catch { /* first run */ }
+
+  // migrate: re-clean old titles/summaries (fixes escaped-HTML pollution
+  // stored by earlier runs). Polluted link-only summaries fall back to title.
+  for (const it of existing) {
+    if (it.title) it.title = cleanText(it.title);
+    let s = it.summary ? cleanText(it.summary) : '';
+    if (!s || s.length < 20 || /^(<a\b|a\s+href|https?:)/i.test(s.trim())) s = it.title || s;
+    it.summary = s;
+  }
 
   const seen = new Map(existing.map((it) => [it.link, it]));
   // শিরোনাম-ভিত্তিক ডুপ্লিকেট ধরতে (একই খবর ভিন্ন ফিডে এলে)
