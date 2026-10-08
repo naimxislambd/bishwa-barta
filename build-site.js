@@ -84,15 +84,16 @@ function footer(rel) {
 function ticker(items, rel) {
   const links = items.slice(0, 8).map((it) =>
     `<a href="${rel}news/${it.id}.html">${esc(it.title)}</a>`).join('<span class="dot">●</span>');
-  return `<div class="ticker"><div class="wrap ticker-in"><span class="tlabel">সর্বশেষ</span><div class="tview"><div class="tscroll">${links}<span class="dot">●</span>${links}</div></div></div></div>`;
+  return `<div class="ticker"><div class="wrap ticker-in"><span class="tlabel">সর্বশেষ</span><div class="tview"><div class="tscroll" id="tscroll">${links}</div></div></div></div>`;
 }
 
 function card(it, rel, eager) {
+  const short = it.summary.length > 110 ? it.summary.slice(0, 110).trim() + '…' : it.summary;
   return `<a class="card" href="${rel}news/${it.id}.html">
   ${imgTag(it, 'card-img', eager)}
   <div class="card-body">
     <h3>${esc(it.title)}</h3>
-    <p>${esc(it.summary)}</p>
+    <p>${esc(short)}</p>
     <div class="meta"><span class="src">${esc(it.source)}</span><span class="time" data-ts="${it.pubDate}">${bnDateShort(it.pubDate)}</span></div>
   </div></a>`;
 }
@@ -100,10 +101,12 @@ function card(it, rel, eager) {
 function buildIndex(items) {
   const rel = '';
   const hero = items.slice(0, 3);
-  const latest = items.slice(3, 15);
-  const more = items.slice(15, 39);
+  const latest = items.slice(3, 9);
+  const more = items.slice(9, 18);
   const bySource = {};
   for (const it of items) (bySource[it.source] = bySource[it.source] || []).push(it);
+  const topSources = Object.entries(bySource)
+    .sort((a, b) => b[1].length - a[1].length).slice(0, 4);
 
   const heroHtml = hero.length ? `<section class="wrap hero">
     <a class="hero-main" href="${rel}news/${hero[0].id}.html">
@@ -114,11 +117,11 @@ function buildIndex(items) {
       ${hero.slice(1).map((it) => `<a class="hero-item" href="${rel}news/${it.id}.html">${imgTag(it, 'hero-thumb', true)}<div><h3>${esc(it.title)}</h3><div class="meta"><span class="src">${esc(it.source)}</span></div></div></a>`).join('')}
     </div></section>` : '';
 
-  const sourceSections = Object.entries(bySource).map(([src, list]) => `
+  const sourceSections = topSources.map(([src, list]) => `
     <section class="wrap block"><div class="block-head"><h2>${esc(src)}</h2><a class="more" href="${rel}sob-khobor.html">সব দেখুন →</a></div>
-    <div class="grid">${list.slice(0, 6).map((it) => card(it, rel)).join('')}</div></section>`).join('');
+    <div class="grid">${list.slice(0, 4).map((it) => card(it, rel)).join('')}</div></section>`).join('');
 
-  const newsIndex = JSON.stringify(items.slice(0, 60).map((it) => ({ id: it.id, t: it.title })));
+  const newsIndex = '[]';
 
   return `${head(`${SITE_NAME} — ${TAGLINE}`, 'আন্তর্জাতিক খবর বাংলায় — প্রতি ঘণ্টায় স্বয়ংক্রিয় হালনাগাদ।', rel)}
 <body>
@@ -137,8 +140,8 @@ ${footer(rel).replace('%%NEWS_INDEX%%', newsIndex)}
 function buildArchive(items) {
   const rel = '';
   const rows = items.map((it) => `
-  <a class="lrow" data-title="${esc(it.title.toLowerCase())}" href="${rel}news/${it.id}.html" style="display:none">${imgTag(it, 'lrow-img')}<div><h3>${esc(it.title)}</h3><p class="lsum">${esc(it.summary)}</p><div class="meta"><span class="src">${esc(it.source)}</span><span class="time" data-ts="${it.pubDate}">${bnDateShort(it.pubDate)}</span></div></div></a>`).join('');
-  const newsIndex = JSON.stringify(items.slice(0, 300).map((it) => ({ id: it.id, t: it.title })));
+  <a class="lrow textonly" data-title="${esc(it.title.toLowerCase())}" href="${rel}news/${it.id}.html" style="display:none"><div><h3>${esc(it.title)}</h3><div class="meta"><span class="src">${esc(it.source)}</span><span class="time" data-ts="${it.pubDate}">${bnDateShort(it.pubDate)}</span></div></div></a>`).join('');
+  const newsIndex = '[]';
   return `${head('সব খবর', 'সব সংগৃহীত আন্তর্জাতিক খবর এক জায়গায়।', rel)}
 <body>
 <script>window.__ARCHIVE__ = true;</script>
@@ -277,9 +280,14 @@ function ago(iso){
 document.querySelectorAll('.time[data-ts]').forEach(function(el){
   var r=ago(el.getAttribute('data-ts')); if(r) el.textContent=r;
 });
+// ticker: duplicate content for a seamless loop
+var ts=document.getElementById('tscroll');
+if(ts){ ts.innerHTML += '<span class="dot">●</span>' + ts.innerHTML; }
 // search
 var q=document.getElementById('q'),res=document.getElementById('qres');
 var idx=window.__NEWS_INDEX__||[];
+var searchBase=location.pathname.indexOf('/news/')>-1?'../':'';
+fetch(searchBase+'search.json').then(function(r){return r.json();}).then(function(j){idx=j;}).catch(function(){});
 if(q){
   q.addEventListener('input',function(){
     var v=q.value.trim().toLowerCase();
@@ -315,6 +323,9 @@ function main() {
   fs.writeFileSync(path.join(OUT, 'style.css'), css());
   fs.writeFileSync(path.join(OUT, 'app.js'), appjs());
   fs.writeFileSync(path.join(OUT, 'robots.txt'), 'User-agent: *\nAllow: /\n');
+  // search index as a separate file (keeps HTML pages small)
+  fs.writeFileSync(path.join(OUT, 'search.json'),
+    JSON.stringify(items.slice(0, 300).map((it) => ({ id: it.id, t: it.title }))));
 
   const base = 'https://example.com/';
   const urls = ['', 'sob-khobor.html', ...items.slice(0, 100).map((it) => `news/${it.id}.html`)];
