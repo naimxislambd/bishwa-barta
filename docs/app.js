@@ -13,9 +13,14 @@ function ago(iso){
 document.querySelectorAll('.time[data-ts]').forEach(function(el){
   var r=ago(el.getAttribute('data-ts')); if(r) el.textContent=r;
 });
+// ticker: duplicate content for a seamless loop
+var ts=document.getElementById('tscroll');
+if(ts){ ts.innerHTML += '<span class="dot">●</span>' + ts.innerHTML; }
 // search
 var q=document.getElementById('q'),res=document.getElementById('qres');
 var idx=window.__NEWS_INDEX__||[];
+var searchBase=location.pathname.indexOf('/news/')>-1?'../':'';
+fetch(searchBase+'search.json').then(function(r){return r.json();}).then(function(j){idx=j;}).catch(function(){});
 if(q){
   q.addEventListener('input',function(){
     var v=q.value.trim().toLowerCase();
