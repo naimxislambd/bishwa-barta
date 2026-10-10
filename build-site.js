@@ -16,6 +16,9 @@ const OUT = path.join(ROOT, 'docs');
 
 const SITE_NAME = 'বিশ্ব বার্তা';
 const TAGLINE = 'বিশ্বের খবর, বাংলায়';
+// Cloudflare Web Analytics beacon token — empty = no tracking.
+// Token pawa matroi ekhane boshao, tarpor rebuild+push korlei visitor count chalu.
+const CF_BEACON_TOKEN = '9ecb762d5fd54d70973d99d4f920c9a6';
 const PLACEHOLDER =
   "data:image/svg+xml," +
   encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8e0e1e"/><stop offset="1" stop-color="#d21034"/></linearGradient></defs><rect width="800" height="450" fill="url(#g)"/><text x="400" y="235" font-size="52" text-anchor="middle" fill="#ffffff" font-family="sans-serif">বিশ্ব বার্তা</text></svg>`);
@@ -48,6 +51,7 @@ function head(title, desc, rel, canonicalPath) {
 <meta name="description" content="${esc(desc)}">
 <link rel="stylesheet" href="${rel}style.css">
 <link rel="icon" href="data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#d21034"/><text x="16" y="23" font-size="18" text-anchor="middle" fill="#fff" font-family="sans-serif">বি</text></svg>')}">
+${CF_BEACON_TOKEN ? `<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "${CF_BEACON_TOKEN}"}'></script><!-- End Cloudflare Web Analytics -->` : ''}
 </head>`;
 }
 
