@@ -2,6 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://example.com/</loc></url>
   <url><loc>https://example.com/sob-khobor.html</loc></url>
+  <url><loc>https://example.com/news/e866b1f3c25a.html</loc></url>
   <url><loc>https://example.com/news/eb7d492eb39d.html</loc></url>
   <url><loc>https://example.com/news/0a3c792c93a6.html</loc></url>
   <url><loc>https://example.com/news/64df92881b78.html</loc></url>
@@ -101,5 +102,4 @@
   <url><loc>https://example.com/news/bfe5d985ab82.html</loc></url>
   <url><loc>https://example.com/news/307465e5051f.html</loc></url>
   <url><loc>https://example.com/news/d88c8a6730d6.html</loc></url>
-  <url><loc>https://example.com/news/e9b9a69b38c5.html</loc></url>
 </urlset>
