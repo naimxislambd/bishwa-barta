@@ -2,12 +2,40 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://example.com/</loc></url>
   <url><loc>https://example.com/sob-khobor.html</loc></url>
+  <url><loc>https://example.com/news/cd8b58247df9.html</loc></url>
+  <url><loc>https://example.com/news/d3c99bd9f490.html</loc></url>
+  <url><loc>https://example.com/news/b6b8c8f84101.html</loc></url>
+  <url><loc>https://example.com/news/c9b1945ce704.html</loc></url>
+  <url><loc>https://example.com/news/72854e12b480.html</loc></url>
+  <url><loc>https://example.com/news/bf79bc01c319.html</loc></url>
+  <url><loc>https://example.com/news/11dcb59724b9.html</loc></url>
+  <url><loc>https://example.com/news/43f36eb410a3.html</loc></url>
+  <url><loc>https://example.com/news/32c35f00ee79.html</loc></url>
+  <url><loc>https://example.com/news/0d61f0fa655f.html</loc></url>
+  <url><loc>https://example.com/news/ac765e9e5b9d.html</loc></url>
+  <url><loc>https://example.com/news/cf36dcd5aa74.html</loc></url>
+  <url><loc>https://example.com/news/f20d063587f6.html</loc></url>
+  <url><loc>https://example.com/news/61d83b532cda.html</loc></url>
+  <url><loc>https://example.com/news/c759e8c80434.html</loc></url>
+  <url><loc>https://example.com/news/33f504480579.html</loc></url>
+  <url><loc>https://example.com/news/c16495a8f45d.html</loc></url>
+  <url><loc>https://example.com/news/b816a90fe201.html</loc></url>
+  <url><loc>https://example.com/news/d3f1498bd6ff.html</loc></url>
+  <url><loc>https://example.com/news/0d67c1a8d563.html</loc></url>
+  <url><loc>https://example.com/news/af3d8af9d810.html</loc></url>
+  <url><loc>https://example.com/news/8ba5668057b7.html</loc></url>
+  <url><loc>https://example.com/news/e2d93ef051a6.html</loc></url>
+  <url><loc>https://example.com/news/95ebf55e8a83.html</loc></url>
+  <url><loc>https://example.com/news/812dc1ab2a74.html</loc></url>
+  <url><loc>https://example.com/news/e19fe4dad711.html</loc></url>
+  <url><loc>https://example.com/news/02df68656616.html</loc></url>
   <url><loc>https://example.com/news/7b0bc4739eac.html</loc></url>
   <url><loc>https://example.com/news/c289e3159768.html</loc></url>
   <url><loc>https://example.com/news/fc4b0f60afba.html</loc></url>
   <url><loc>https://example.com/news/313bf9b0a507.html</loc></url>
   <url><loc>https://example.com/news/7b7aa8790f4a.html</loc></url>
   <url><loc>https://example.com/news/e457b3819f04.html</loc></url>
+  <url><loc>https://example.com/news/a2d0506b37a5.html</loc></url>
   <url><loc>https://example.com/news/6a4fb6a8ee57.html</loc></url>
   <url><loc>https://example.com/news/a72bb3406684.html</loc></url>
   <url><loc>https://example.com/news/7863bb814e9c.html</loc></url>
@@ -74,32 +102,4 @@
   <url><loc>https://example.com/news/7aeb426d428b.html</loc></url>
   <url><loc>https://example.com/news/9ee1759d99b9.html</loc></url>
   <url><loc>https://example.com/news/c03ac7994224.html</loc></url>
-  <url><loc>https://example.com/news/8654383590af.html</loc></url>
-  <url><loc>https://example.com/news/5a8b839348b8.html</loc></url>
-  <url><loc>https://example.com/news/03a601b17ab1.html</loc></url>
-  <url><loc>https://example.com/news/3e259cd0f592.html</loc></url>
-  <url><loc>https://example.com/news/da6844a28e29.html</loc></url>
-  <url><loc>https://example.com/news/77a44a993095.html</loc></url>
-  <url><loc>https://example.com/news/8c28044cbb9b.html</loc></url>
-  <url><loc>https://example.com/news/42748c30da81.html</loc></url>
-  <url><loc>https://example.com/news/7aac96b779c4.html</loc></url>
-  <url><loc>https://example.com/news/796f087e6cf1.html</loc></url>
-  <url><loc>https://example.com/news/69c079831bab.html</loc></url>
-  <url><loc>https://example.com/news/de113ed2e619.html</loc></url>
-  <url><loc>https://example.com/news/3ffc849bb040.html</loc></url>
-  <url><loc>https://example.com/news/96580641c7f6.html</loc></url>
-  <url><loc>https://example.com/news/178bba20aa2d.html</loc></url>
-  <url><loc>https://example.com/news/158972761f98.html</loc></url>
-  <url><loc>https://example.com/news/eecdf799e40d.html</loc></url>
-  <url><loc>https://example.com/news/1c1c626da728.html</loc></url>
-  <url><loc>https://example.com/news/332175917af3.html</loc></url>
-  <url><loc>https://example.com/news/aa76f3f7cbf6.html</loc></url>
-  <url><loc>https://example.com/news/7d9a03fed6ee.html</loc></url>
-  <url><loc>https://example.com/news/36fa9fc23415.html</loc></url>
-  <url><loc>https://example.com/news/42c5555f7b3e.html</loc></url>
-  <url><loc>https://example.com/news/74a7f785b960.html</loc></url>
-  <url><loc>https://example.com/news/caf8d686c00d.html</loc></url>
-  <url><loc>https://example.com/news/fc1e4d1e975e.html</loc></url>
-  <url><loc>https://example.com/news/3e07ab146463.html</loc></url>
-  <url><loc>https://example.com/news/0538eb7ff58e.html</loc></url>
 </urlset>
